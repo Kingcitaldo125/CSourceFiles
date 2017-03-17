@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1468955264 source:c:\users\paul\documents\c source files\getcwd\main.cpp
+	<iostream>
+	<windows.h>
+	<unistd.h>
+
