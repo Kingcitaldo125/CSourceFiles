@@ -1,50 +1,45 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 int main()
 {
+	int i;
+	int j;
+	int tns = 0;
+	
 	srand(time(NULL));
-	printf("I am thinking of a number...\n");
-	printf("It is a number between 1 and 100.\n");
-	printf("Try to guess my number:\n");
-	printf("You have 6 chances to guess the right number or.. You're out!\n");
-	int chances=5;
-	int guess,answer;
-	int tries=0;
-	answer=rand()%100;
-	answer+=1;
-	while(1)
+	
+	i = (rand() % 100) + 1;
+	
+	//printf("%d\n", i);
+	
+	int flag = 0;
+	
+	while (tns < 5)
 	{
-		scanf("%d",&guess);
-		if(tries==chances || guess==answer)
+		printf("Guess the number between 1 and 100.\n");
+		scanf("%d", &j);
+		
+		if (i == j)
 		{
+			printf("You Guessed Right!\n");
+			flag = 1;
 			break;
 		}
-		if(guess<answer)
+		else if (i > j)
 		{
 			printf("Higher!\n");
+			tns++;
 		}
 		else
 		{
 			printf("Lower!\n");
+			tns++;
 		}
-		tries=tries+1;
 	}
-	if(tries==chances&&guess!=answer)
-	{
-		printf("Sorry... The right number was %d\n",answer);
-	}
-	else if(tries==chances&&guess==answer)
-	{
-		printf("Correct!!!\n");
-		printf("The correct number was %d.\n",answer);
-		printf("You got the answer in %d tries\n",tries);
-	}
-	else
-	{
-		printf("Correct!!!\n");
-		printf("The correct number was %d.\n",answer);
-		printf("You got the answer in %d tries\n",tries+1);
-	}
+	
+	flag == 0 ? printf("You Lose.\n") : printf("You Win!\n");
+	
 	return 0;
 }
