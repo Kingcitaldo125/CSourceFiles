@@ -4,53 +4,7 @@
 #include <algorithm>
 
 using std::cout;
-using std::ifstream;
-using std::ofstream;
 using std::vector;
-
-inline void readFile(vector<int>& mVec, const char* fName= "inFile.txt")
-{
-	ifstream f(fName, std::ios::in);
-
-	int itm;
-
-	while (f >> itm)
-	{
-		mVec.push_back(itm);
-	}
-}
-
-inline void writeFile(vector<int>& mVec, const char* fName = "outFile.txt")
-{
-	ofstream f(fName, std::ios::out);
-
-	vector<int>::iterator it;
-
-	for (it = mVec.begin(); it != mVec.end(); ++it)
-	{
-		f << *it;
-		f << "\n";
-	}
-}
-
-
-inline double getAvg(vector<int>& mVec)
-{
-	unsigned int total=0;
-	double avg=0.;
-
-	vector<int>::iterator it;
-
-	for (it = mVec.begin(); it != mVec.end(); ++it)
-	{
-		total += *it;
-	}
-
-	avg = static_cast<double> (total / mVec.size());
-
-	return avg;
-}
-
 
 inline vector<int> bubbleSort(vector<int> mVec)
 {
@@ -114,18 +68,6 @@ int main()
 	{
 		cout << "Item2: " << *it << "\n";
 	}
-
-	//int minElement, maxElement;
-
-	//auto mm = std::minmax_element(mVec.begin(), mVec.end());
-	//minElement = *mm.first;
-	//maxElement = *mm.second;
-
-	//cout << "minElement: " << minElement << " maxElement: " << maxElement << "\n";
-
-	//cout << "Avg: " << getAvg(mVec);
-
-	//writeFile(mVec);
 
 	return 0;
 }
