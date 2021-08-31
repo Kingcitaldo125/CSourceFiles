@@ -5,7 +5,7 @@
 //[3,2,5] -> [3,1,9]
 //[1,3,1]  -> [2,3,7]
 //[9,7,3] -> [5,1,3]
-inline std::vector<std::vector<int>> mtxTranspose(std::vector<std::vector<int>> matxIn)
+std::vector<std::vector<int>> mtxTranspose(std::vector<std::vector<int>> matxIn)
 {
     std::vector<std::vector<int>> matxOut;
     
@@ -33,25 +33,10 @@ int main()
 {
     std::vector<std::vector<int>> matxIn;
     std::vector<std::vector<int>> matxOut;
-    std::vector<int> r1;
-    std::vector<int> r2;
-    std::vector<int> r3;
 
-    r1.push_back(3);
-    r1.push_back(2);
-    r1.push_back(5);
-
-    r2.push_back(1);
-    r2.push_back(3);
-    r2.push_back(1);
-
-    r3.push_back(9);
-    r3.push_back(7);
-    r3.push_back(3);
-
-    matxIn.push_back(r1);
-    matxIn.push_back(r2);
-    matxIn.push_back(r3);
+    matxIn.push_back({3,2,5});
+    matxIn.push_back({1,3,1});
+    matxIn.push_back({9,7,3});
 
     matxOut = mtxTranspose(matxIn);
 
@@ -63,6 +48,7 @@ int main()
         {
             std::cout << row[j] << ",";
         }
+        std::cout << "\n";
     }
 
     std::cout << "Hello World!\n";
