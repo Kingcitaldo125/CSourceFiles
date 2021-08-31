@@ -1,57 +1,69 @@
 #include <iostream>
 #include <vector>
 
+using std::cout;
+using std::endl;
 
-//[3,2,5] -> [3,1,9]
-//[1,3,1]  -> [2,3,7]
-//[9,7,3] -> [5,1,3]
-std::vector<std::vector<int>> mtxTranspose(std::vector<std::vector<int>> matxIn)
+std::vector<std::vector<int>> transpose(const std::vector<std::vector<int>>& matx)
 {
-    std::vector<std::vector<int>> matxOut;
-    
-    for (int i = 0; i < matxIn.size(); ++i)
+    // check to make sure there are no differing row sizes
     {
-        std::vector<int> rowIn = matxIn[i];
-        std::vector<int> rowNew;
-        
-        for (int j = 0; j < rowIn.size(); ++j)
+        auto n_size = -1;
+        for(auto& i : matx)
         {
-            rowNew.push_back(matxIn[j][i]);
+            if(n_size != -1 && n_size != i.size())
+                throw "Row sizes alternate; Cannot transpose";
+            n_size = i.size();
         }
-
-        matxOut.push_back(rowNew);
+    }
+    
+    std::vector<std::vector<int>> new_matx;
+    auto row_size = matx[0].size();
+    
+    for(auto i = 0; i < row_size; ++i)
+    {
+        std::vector<int> n_row(matx.size(),0);
+        new_matx.push_back(n_row);
     }
 
-    return matxOut;
+    for(auto i = 0; i < row_size; ++i)
+    {
+        for(auto j = 0; j < matx.size(); ++j)
+        {
+            new_matx[i][j] = matx[j][i];
+        }
+    }
+    return new_matx;
 }
 
-
-//[3,2,5] -> [3,1,9]
-//[1,3,1]  -> [2,3,5]
-//[9,7,3] -> [5,1,3]
 int main()
 {
-    std::vector<std::vector<int>> matxIn;
-    std::vector<std::vector<int>> matxOut;
-
-    matxIn.push_back({3,2,5});
-    matxIn.push_back({1,3,1});
-    matxIn.push_back({9,7,3});
-
-    matxOut = mtxTranspose(matxIn);
-
-    for (int i = 0; i < matxOut.size(); ++i)
+    std::vector<std::vector<int>> mints;
+    
+    mints.push_back({1,2});
+    mints.push_back({3,4});
+    mints.push_back({5,6});
+    
+    std::vector<std::vector<int>> t_matx;
+    try
     {
-        std::vector<int> row = matxOut[i];
-
-        for (int j = 0; j < row.size(); ++j)
-        {
-            std::cout << row[j] << ",";
-        }
-        std::cout << "\n";
+        t_matx = transpose(mints);
     }
-
-    std::cout << "Hello World!\n";
+    catch(...)
+    {
+        cout << "Exception occurred\n";
+    }
+    
+    for(auto& row : t_matx)
+    {
+        for(auto& i : row)
+        {
+            cout << i << ",";
+        }
+        cout << endl;
+    }
+    
+    cout << "Hello World" << endl;
 
     return 0;
 }
