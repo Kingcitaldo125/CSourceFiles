@@ -1,7 +1,7 @@
 #include <chrono>
 #include <iostream>
 #include <queue>
-#include <set>
+#include <unordered_set>
 #include <thread>
 #include <unordered_map>
 #include <vector>
@@ -40,7 +40,7 @@ protected:
   void add_key(int key, int val);
 
 private:
-  std::set<int> keys;
+  std::unordered_set<int> keys;
   std::unordered_map<int, Item> keymap;
   std::unordered_map<long, int> keymap_r;
 
