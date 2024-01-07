@@ -1,10 +1,8 @@
 #include <chrono>
 #include <iostream>
-#include <queue>
+#include <list>
 #include <unordered_set>
-#include <thread>
 #include <unordered_map>
-#include <vector>
 
 static inline long make_timepoint() {
   return static_cast<long>(
@@ -44,7 +42,8 @@ private:
   std::unordered_map<int, Item> keymap;
   std::unordered_map<long, int> keymap_r;
 
-  std::priority_queue<long, std::vector<long>, std::greater<long>> timestamps;
+  //std::priority_queue<long, std::vector<long>, std::greater<long>> timestamps;
+  std::list<long> timestamps;
 
   int c_capacity;
   int total_capacity;
@@ -59,13 +58,15 @@ void LRU::add(int key, int val) {
   keymap_r[i.timepoint] = key;
 
   keys.insert(key);
-  timestamps.push(i.timepoint);
+  //timestamps.push(i.timepoint);
+  timestamps.push_back(i.timepoint);
 
   ++c_capacity;
 }
 
 void LRU::handle_overflow() {
-  const auto l_timepoint = timestamps.top();
+  //const auto l_timepoint = timestamps.top();
+  const auto l_timepoint = timestamps.front();
   const auto lru_key = keymap_r[l_timepoint];
 
   std::cout << "Erasing '" << lru_key << "' (" << l_timepoint << ")"
@@ -75,7 +76,8 @@ void LRU::handle_overflow() {
   keymap.erase(lru_key);
   keys.erase(lru_key);
 
-  timestamps.pop();
+  //timestamps.pop();
+  timestamps.pop_front();
 
   --c_capacity;
 }
@@ -89,7 +91,8 @@ void LRU::add_key(int key, int val) {
   const auto kmv = keymap[key].value;
 
   // Update the current key to have the most recent value
-  if (keymap[key].timepoint == timestamps.top()) {
+  //if (keymap[key].timepoint == timestamps.top()) {
+  if (keymap[key].timepoint == timestamps.front()) {
     handle_overflow();
   }
 
@@ -122,21 +125,6 @@ int LRU::get(int key) {
   }
 
   return -1;
-}
-
-inline void test_timepoints() {
-  std::priority_queue<long, std::vector<long>, std::greater<long>> timestamps;
-
-  timestamps.push(make_timepoint());
-  std::this_thread::sleep_for(std::chrono::milliseconds(5));
-  timestamps.push(make_timepoint());
-  std::this_thread::sleep_for(std::chrono::milliseconds(5));
-  timestamps.push(make_timepoint());
-
-  while (timestamps.size() > 0) {
-    std::cout << timestamps.top() << "\n";
-    timestamps.pop();
-  }
 }
 
 inline void run() {
