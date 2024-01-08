@@ -3,7 +3,7 @@ set(X_SOURCE_FILES "")
 file(GLOB X_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*")
 
 foreach(xi ${X_SOURCE_FILES})
-    message("Processing '${xi}'...")
+    message(STATUS "Processing '${xi}'...")
 
     set(xi_filename "")
     set(xi_targetname "")
@@ -19,8 +19,8 @@ foreach(xi ${X_SOURCE_FILES})
         continue()
     endif()
 
-    message("xi_filename ${xi_filename}")
-    message("xi_targetname ${xi_targetname}")
+    message(DEBUG "xi_filename ${xi_filename}")
+    message(DEBUG "xi_targetname ${xi_targetname}")
 
     add_executable(${xi_targetname} ${CMAKE_CURRENT_SOURCE_DIR}/${xi_filename})
 endforeach()
