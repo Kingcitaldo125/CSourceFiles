@@ -45,3 +45,16 @@ std::vector<unsigned int> sieve()
 
     return vals;
 }
+
+int main()
+{
+    const auto vals = sieve<16>();
+
+    for(const auto& i : vals)
+    {
+        std::cout << i << " ";
+    }
+    std::cout << "\n";
+
+    return 0;
+}
