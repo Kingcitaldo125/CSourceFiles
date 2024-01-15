@@ -42,7 +42,6 @@ private:
   std::unordered_map<int, Item> keymap;
   std::unordered_map<long, int> keymap_r;
 
-  //std::priority_queue<long, std::vector<long>, std::greater<long>> timestamps;
   std::list<long> timestamps;
 
   int c_capacity;
@@ -58,14 +57,12 @@ void LRU::add(int key, int val) {
   keymap_r[i.timepoint] = key;
 
   keys.insert(key);
-  //timestamps.push(i.timepoint);
   timestamps.push_back(i.timepoint);
 
   ++c_capacity;
 }
 
 void LRU::handle_overflow() {
-  //const auto l_timepoint = timestamps.top();
   const auto l_timepoint = timestamps.front();
   const auto lru_key = keymap_r[l_timepoint];
 
@@ -76,7 +73,6 @@ void LRU::handle_overflow() {
   keymap.erase(lru_key);
   keys.erase(lru_key);
 
-  //timestamps.pop();
   timestamps.pop_front();
 
   --c_capacity;
@@ -91,7 +87,6 @@ void LRU::add_key(int key, int val) {
   const auto kmv = keymap[key].value;
 
   // Update the current key to have the most recent value
-  //if (keymap[key].timepoint == timestamps.top()) {
   if (keymap[key].timepoint == timestamps.front()) {
     handle_overflow();
   }
