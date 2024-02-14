@@ -6,7 +6,7 @@
 #include <vector>
 
 template <size_t N>
-std::vector<unsigned int> sieve()
+constexpr std::vector<unsigned int> sieve()
 {
     if (N <= 0)
         return std::vector<unsigned int>();
