@@ -3,11 +3,11 @@
 #include <list>
 #include <unordered_map>
 
-static std::unordered_map<char,int> prescedence_map { {'(', 1}, {')', 1}, {'-', 2}, {'+', 3}, {'/', 4}, {'*', 5}};
+static std::unordered_map<char,int> prescedence_map { {'-', 1}, {'+', 2}, {'/', 3}, {'*', 4} };
 
 inline bool is_operand(const char c)
 {
-    return c == '(' || c == ')' || c == '+' || c == '-' || c == '*' || c == '/';
+    return c == '+' || c == '-' || c == '*' || c == '/';
 }
 
 inline bool prescedence(char c1, char c2)
