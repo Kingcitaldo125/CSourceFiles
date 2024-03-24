@@ -8,10 +8,11 @@ int add(int a, int b)
 
     while(x <= 512)
     {
+        // Extract the bit value for both ints at the 'x' place
         bool bit1 = ((a & x) > 0 ? true : false);
         bool bit2 = ((b & x) > 0 ? true : false);
 
-        if (bit1 && bit2)
+        if (bit1 && bit2) // both bits are set
         {
             if (carry)
             {
@@ -24,7 +25,7 @@ int add(int a, int b)
 
             carry = 1;
         }
-        else if (bit1 || bit2)
+        else if (bit1 || bit2) // one bit set, the other not set
         {
             if (carry)
             {
@@ -36,7 +37,7 @@ int add(int a, int b)
                 res = res | x;
             }
         }
-        else
+        else // neither of the two bits are set
         {
             if (carry)
             {
