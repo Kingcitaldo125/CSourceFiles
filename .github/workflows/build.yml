@@ -1,0 +1,25 @@
+name: Build Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs_on: ubuntu_latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Deps
+        run: sudo apt -y update && sudo apt -y install cmake build-essential
+
+      - name: Configure CMake
+        run: cmake -S . -B build
+
+      - name: Build sources
+        run: cmake --build build/ --parallel 4
