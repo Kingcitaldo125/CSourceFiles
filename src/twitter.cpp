@@ -72,7 +72,12 @@ class Twitter
 {
 public:
     Twitter() = default;
-    
+
+    Twitter(const Twitter&) = delete;
+    Twitter(Twitter&&) = delete;
+    Twitter& operator=(const Twitter&) = delete;
+    Twitter& operator=(Twitter&&) = delete;
+
     void postTweet(int userId, int tweetId)
     {
         if (!hasUser(userId))
