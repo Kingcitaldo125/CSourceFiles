@@ -6,7 +6,7 @@ int add(int a, int b)
     int x = 1;
     int carry = 0;
 
-    while(x <= 512)
+    while (x <= 512)
     {
         // Extract the bit value for both ints at the 'x' place
         bool bit1 = ((a & x) > 0 ? true : false);
@@ -50,7 +50,7 @@ int add(int a, int b)
 
     if (carry)
     {
-        res = res | ( 1 << x ); // move a set bit into the current x place
+        res = res | (1 << x); // move a set bit into the current x place
         carry = 0;
     }
 

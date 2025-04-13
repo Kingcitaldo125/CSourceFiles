@@ -1,47 +1,46 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
 #include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <vector>
 
 using std::ifstream;
 using std::ofstream;
 using std::vector;
 
-inline void readFile(vector<int>& mVec)
+inline void readFile(vector<int> &mVec)
 {
-	ifstream f("inFile.txt", std::ios::in);
+    ifstream f("inFile.txt", std::ios::in);
 
-	int itm;
+    int itm;
 
-	while (f >> itm)
-	{
-		mVec.push_back(itm);
-	}
+    while (f >> itm)
+    {
+        mVec.push_back(itm);
+    }
 }
 
-inline void writeFile(vector<int>& mVec)
+inline void writeFile(vector<int> &mVec)
 {
-	ofstream f("outFile.txt", std::ios::out);
+    ofstream f("outFile.txt", std::ios::out);
 
-	vector<int>::iterator it;
+    vector<int>::iterator it;
 
-	for (it = mVec.begin(); it != mVec.end(); ++it)
-	{
-		f << *it;
-		f << "\n";
-	}
+    for (it = mVec.begin(); it != mVec.end(); ++it)
+    {
+        f << *it;
+        f << "\n";
+    }
 }
-
 
 int main()
 {
-	vector<int> mVec;
-	
-	readFile(mVec);
+    vector<int> mVec;
 
-	std::sort(mVec.begin(), mVec.end());
+    readFile(mVec);
 
-	writeFile(mVec);
+    std::sort(mVec.begin(), mVec.end());
 
-	return 0;
+    writeFile(mVec);
+
+    return 0;
 }

@@ -3,15 +3,17 @@
 
 class Heap
 {
- public:
-    Heap() : min_heap(true) {}
+  public:
+    Heap() : min_heap(true)
+    {
+    }
 
     void push(const int d);
     int pop();
     void print();
     bool empty();
 
- protected:
+  protected:
     void heapify_down();
     void heapify_up();
 
@@ -23,7 +25,7 @@ class Heap
     bool has_left_child(int c_idx);
     bool has_right_child(int c_idx);
 
- private:
+  private:
     std::vector<int> items;
     bool min_heap;
 };
@@ -35,7 +37,7 @@ bool Heap::empty()
 
 void Heap::print()
 {
-    for(const auto& i : items)
+    for (const auto &i : items)
     {
         std::cout << i << " ";
     }
@@ -44,7 +46,8 @@ void Heap::print()
 
 int Heap::get_parent(int c_idx)
 {
-    if (c_idx < 1) return -1;
+    if (c_idx < 1)
+        return -1;
     const int pidx = c_idx / 2;
     return pidx < 0 ? -1 : pidx;
 }
@@ -58,7 +61,8 @@ int Heap::get_left_child(int c_idx)
 int Heap::get_right_child(int c_idx)
 {
     const int lc_idx = get_left_child(c_idx);
-    if (lc_idx == -1) return -1;
+    if (lc_idx == -1)
+        return -1;
     return (lc_idx + 1) >= static_cast<int>(items.size()) ? -1 : (lc_idx + 1);
 }
 
@@ -114,16 +118,18 @@ int Heap::pop()
 
 void Heap::heapify_up()
 {
-    if (items.size() < 2) return;
+    if (items.size() < 2)
+        return;
 
     int idx = items.size() - 1;
     int p_idx = -1;
 
-    while(has_parent(idx))
+    while (has_parent(idx))
     {
         p_idx = get_parent(idx);
 
-        if (items.at(p_idx) >= items.at(idx)) break;
+        if (items.at(p_idx) >= items.at(idx))
+            break;
 
         std::swap(items.at(p_idx), items.at(idx));
 
@@ -133,17 +139,19 @@ void Heap::heapify_up()
 
 void Heap::heapify_down()
 {
-    if (items.size() < 2) return;
+    if (items.size() < 2)
+        return;
 
     int idx = 0;
     int left = -1;
     int right = -1;
 
-    while(has_left_child(idx))
+    while (has_left_child(idx))
     {
         left = get_left_child(idx);
 
-        if (items.at(left) >= items.at(idx)) break;
+        if (items.at(left) >= items.at(idx))
+            break;
 
         std::swap(items.at(left), items.at(idx));
 
@@ -152,11 +160,12 @@ void Heap::heapify_down()
         right = get_right_child(idx);
     }
 
-    while(has_right_child(idx))
+    while (has_right_child(idx))
     {
         right = get_right_child(idx);
 
-        if (items.at(right) >= items.at(idx)) break;
+        if (items.at(right) >= items.at(idx))
+            break;
 
         std::swap(items.at(right), items.at(idx));
 
@@ -185,7 +194,7 @@ int main()
     hp.push(4);
     hp.print();
 
-    while(hp.empty() == false)
+    while (hp.empty() == false)
     {
         std::cout << "Item: " << hp.pop() << "\n";
     }

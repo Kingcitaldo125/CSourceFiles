@@ -1,4 +1,4 @@
-//https://neetcode.io/problems/design-twitter-feed
+// https://neetcode.io/problems/design-twitter-feed
 #include <chrono>
 #include <iostream>
 #include <map>
@@ -21,12 +21,16 @@ struct comp
 
 struct User
 {
-    User() : id(-1) {}
-    User(int _id) : id(_id) {}
+    User() : id(-1)
+    {
+    }
+    User(int _id) : id(_id)
+    {
+    }
 
     void addTweet(const int tweetId)
     {
-        const auto tpair = std::make_pair(getEpochTimestamp(),tweetId);
+        const auto tpair = std::make_pair(getEpochTimestamp(), tweetId);
         updateNewsFeed({tpair});
         users_tweets.push_back(tpair);
     }
@@ -41,42 +45,42 @@ struct User
         following.erase(userId);
     }
 
-    std::unordered_set<int>& getFollowing()
+    std::unordered_set<int> &getFollowing()
     {
         return following;
     }
 
-    void rebuildNewsFeed(const std::vector<std::pair<int64_t,int>>& other_items)
+    void rebuildNewsFeed(const std::vector<std::pair<int64_t, int>> &other_items)
     {
         newsfeed.clear();
         updateNewsFeed(users_tweets);
         updateNewsFeed(other_items);
     }
 
-    void updateNewsFeed(const std::vector<std::pair<int64_t,int>>& items)
+    void updateNewsFeed(const std::vector<std::pair<int64_t, int>> &items)
     {
-        for(const auto& itm : items)
+        for (const auto &itm : items)
         {
-            const auto &[timestamp,content] = itm;
+            const auto &[timestamp, content] = itm;
             newsfeed[timestamp] = content;
         }
     }
 
     int id;
-    std::map<int64_t,int,comp> newsfeed;
+    std::map<int64_t, int, comp> newsfeed;
     std::unordered_set<int> following;
-    std::vector<std::pair<int64_t,int>> users_tweets;
+    std::vector<std::pair<int64_t, int>> users_tweets;
 };
 
 class Twitter
 {
-public:
+  public:
     Twitter() = default;
 
-    Twitter(const Twitter&) = delete;
-    Twitter(Twitter&&) = delete;
-    Twitter& operator=(const Twitter&) = delete;
-    Twitter& operator=(Twitter&&) = delete;
+    Twitter(const Twitter &) = delete;
+    Twitter(Twitter &&) = delete;
+    Twitter &operator=(const Twitter &) = delete;
+    Twitter &operator=(Twitter &&) = delete;
 
     void postTweet(int userId, int tweetId)
     {
@@ -98,21 +102,22 @@ public:
         }
 
         std::vector<int> ufeed;
-        auto& un_feed = usermap[userId].newsfeed;
+        auto &un_feed = usermap[userId].newsfeed;
         int ctr = 0;
-        for(auto it = un_feed.begin(); it != un_feed.end(); ++it)
+        for (auto it = un_feed.begin(); it != un_feed.end(); ++it)
         {
-            if (ctr >= 10) break;
+            if (ctr >= 10)
+                break;
 
             auto cpair = *it;
-            const auto [stamp,content] = cpair;
+            const auto [stamp, content] = cpair;
             ufeed.push_back(content);
             ++ctr;
         }
 
         return ufeed;
     }
-    
+
     void follow(int followerId, int followeeId)
     {
         if (!hasUser(followerId))
@@ -128,17 +133,17 @@ public:
 
         usermap[followerId].addFollowing(followeeId);
 
-        for(const auto& followr : usermap[followerId].getFollowing())
+        for (const auto &followr : usermap[followerId].getFollowing())
         {
-            std::vector<std::pair<int64_t,int>> feedvec;
-            for(const auto& tweet_pair : usermap[followr].users_tweets)
+            std::vector<std::pair<int64_t, int>> feedvec;
+            for (const auto &tweet_pair : usermap[followr].users_tweets)
             {
                 feedvec.push_back(tweet_pair);
             }
             usermap[followerId].updateNewsFeed(std::move(feedvec));
         }
     }
-    
+
     void unfollow(int followerId, int followeeId)
     {
         if (!hasUser(followerId))
@@ -160,28 +165,29 @@ public:
             return;
         }
 
-        for(const auto& still_following : usermap[followerId].following)
+        for (const auto &still_following : usermap[followerId].following)
         {
             usermap[followerId].rebuildNewsFeed(usermap[still_following].users_tweets);
-            std::cout << "rebuilt '" << followerId << "'s feed with '" << still_following << "'s items.\n";
+            std::cout << "rebuilt '" << followerId << "'s feed with '" << still_following
+                      << "'s items.\n";
         }
     }
 
-protected:
+  protected:
     bool hasUser(const int id)
     {
         return users.find(id) != users.end();
     }
 
-private:
+  private:
     std::unordered_set<int> users;
-    std::unordered_map<int,User> usermap;
+    std::unordered_map<int, User> usermap;
 };
 
-inline void print_feed(Twitter& twitter_obj, const int userId)
+inline void print_feed(Twitter &twitter_obj, const int userId)
 {
     std::cout << userId << "'s feed:\n";
-    for (const auto& itm : twitter_obj.getNewsFeed(userId))
+    for (const auto &itm : twitter_obj.getNewsFeed(userId))
     {
         std::cout << itm << " ";
     }
@@ -191,19 +197,19 @@ inline void print_feed(Twitter& twitter_obj, const int userId)
 int main()
 {
     Twitter twitter;
-    twitter.postTweet(1,10);
-    twitter.postTweet(2,20);
+    twitter.postTweet(1, 10);
+    twitter.postTweet(2, 20);
 
-    print_feed(twitter,1);
-    print_feed(twitter,2);
+    print_feed(twitter, 1);
+    print_feed(twitter, 2);
 
-    twitter.follow(1,2);
+    twitter.follow(1, 2);
 
-    print_feed(twitter,1);
+    print_feed(twitter, 1);
 
-    twitter.unfollow(1,2);
+    twitter.unfollow(1, 2);
 
-    print_feed(twitter,1);
+    print_feed(twitter, 1);
 
     return 0;
 }

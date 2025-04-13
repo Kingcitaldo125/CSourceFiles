@@ -6,9 +6,15 @@ struct ListNode
 {
     int val;
     ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode() : val(0), next(nullptr)
+    {
+    }
+    ListNode(int x) : val(x), next(nullptr)
+    {
+    }
+    ListNode(int x, ListNode *next) : val(x), next(next)
+    {
+    }
 };
 
 struct TreeNode
@@ -17,36 +23,44 @@ struct TreeNode
     TreeNode *left;
     TreeNode *right;
 
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode() : val(0), left(nullptr), right(nullptr)
+    {
+    }
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr)
+    {
+    }
 };
 
 class Tree
 {
- public:
-    Tree() : root(nullptr) {}
-    virtual ~Tree() {}
+  public:
+    Tree() : root(nullptr)
+    {
+    }
+    virtual ~Tree()
+    {
+    }
 
     void add(int k);
     std::list<int> extract();
 
- protected:
-    void add_help(TreeNode*& rt, int k);
-    void extract_help(std::list<int>& mlist, TreeNode* rt);
+  protected:
+    void add_help(TreeNode *&rt, int k);
+    void extract_help(std::list<int> &mlist, TreeNode *rt);
 
- private:
-    TreeNode* root;
+  private:
+    TreeNode *root;
 };
 
-void Tree::add_help(TreeNode*& rt, int k)
+void Tree::add_help(TreeNode *&rt, int k)
 {
-    if(rt == nullptr)
+    if (rt == nullptr)
     {
         rt = new TreeNode(k);
         return;
     }
 
-    if(k < rt->val)
+    if (k < rt->val)
     {
         add_help(rt->left, k);
     }
@@ -61,7 +75,7 @@ void Tree::add(int k)
     add_help(root, k);
 }
 
-void Tree::extract_help(std::list<int>& mlist, TreeNode* rt)
+void Tree::extract_help(std::list<int> &mlist, TreeNode *rt)
 {
     if (rt == nullptr)
     {
@@ -82,30 +96,30 @@ std::list<int> Tree::extract()
     return items;
 }
 
-ListNode* merge_k_lists(std::vector<ListNode*>& lists)
+ListNode *merge_k_lists(std::vector<ListNode *> &lists)
 {
-    ListNode* nhead = nullptr;
+    ListNode *nhead = nullptr;
     Tree tree;
 
-    const auto xtraverse = [&tree](ListNode* head)
+    const auto xtraverse = [&tree](ListNode *head)
     {
         auto h = head;
 
-        while(h != nullptr)
+        while (h != nullptr)
         {
             tree.add(h->val);
             h = h->next;
         }
     };
 
-    for(const auto& xhead : lists)
+    for (const auto &xhead : lists)
     {
         xtraverse(xhead);
     }
 
     auto nh = nhead;
     auto prev = nh;
-    for(const auto& i : tree.extract())
+    for (const auto &i : tree.extract())
     {
         std::cout << i << " ";
 
@@ -129,11 +143,11 @@ ListNode* merge_k_lists(std::vector<ListNode*>& lists)
     return nhead;
 }
 
-void traverse(ListNode* head)
+void traverse(ListNode *head)
 {
     auto h = head;
 
-    while(h != nullptr)
+    while (h != nullptr)
     {
         std::cout << h->val << " ";
         h = h->next;
@@ -142,15 +156,15 @@ void traverse(ListNode* head)
     std::cout << "\n";
 }
 
-void deallocate(ListNode*& head)
+void deallocate(ListNode *&head)
 {
     auto h = head;
 
-    while(h != nullptr)
+    while (h != nullptr)
     {
         auto tmp = h->next;
 
-        if(h)
+        if (h)
         {
             delete h;
         }
@@ -162,9 +176,9 @@ void deallocate(ListNode*& head)
 
 inline void app()
 {
-    ListNode* head1 = new ListNode(1);
-    ListNode* head2 = new ListNode(1);
-    ListNode* head3 = new ListNode(2);
+    ListNode *head1 = new ListNode(1);
+    ListNode *head2 = new ListNode(1);
+    ListNode *head3 = new ListNode(2);
 
     head1->next = new ListNode(4);
     head1->next->next = new ListNode(5);
@@ -174,7 +188,7 @@ inline void app()
 
     head3->next = new ListNode(6);
 
-    std::vector<ListNode*> mpointers{head1, head2, head3};
+    std::vector<ListNode *> mpointers{head1, head2, head3};
     auto nhead = merge_k_lists(mpointers);
 
     traverse(nhead);

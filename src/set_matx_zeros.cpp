@@ -3,25 +3,25 @@
 #include <iostream>
 #include <vector>
 
-void set_zero_col(std::vector<std::vector<int>>& matrix, const int col)
+void set_zero_col(std::vector<std::vector<int>> &matrix, const int col)
 {
-    for(auto& row : matrix)
+    for (auto &row : matrix)
     {
         row.at(col) = 0;
     }
 }
 
-void set_zero_row(std::vector<std::vector<int>>& matrix, const int row)
+void set_zero_row(std::vector<std::vector<int>> &matrix, const int row)
 {
     int id = 0;
 
-    while(1)
+    while (1)
     {
         if (id == row)
         {
-            auto& xrow = matrix.at(id);
+            auto &xrow = matrix.at(id);
 
-            for(auto& rr : xrow)
+            for (auto &rr : xrow)
             {
                 rr = 0;
             }
@@ -33,17 +33,17 @@ void set_zero_row(std::vector<std::vector<int>>& matrix, const int row)
     }
 }
 
-void setZeroes(std::vector<std::vector<int>>& matrix)
+void setZeroes(std::vector<std::vector<int>> &matrix)
 {
-    std::vector<std::pair<int,int>> zero_cells;
+    std::vector<std::pair<int, int>> zero_cells;
     int row_id = 0;
     int col_id = 0;
 
-    for(const auto& row : matrix)
+    for (const auto &row : matrix)
     {
         col_id = 0;
 
-        for(const auto& r : row)
+        for (const auto &r : row)
         {
             if (r == 0)
             {
@@ -56,20 +56,20 @@ void setZeroes(std::vector<std::vector<int>>& matrix)
         ++row_id;
     }
 
-    for(const auto& cell : zero_cells)
+    for (const auto &cell : zero_cells)
     {
-        const auto &[r,c] = cell;
+        const auto &[r, c] = cell;
 
         set_zero_row(matrix, r);
         set_zero_col(matrix, c);
     }
 }
 
-inline void print_matrix(std::vector<std::vector<int>>& matx)
+inline void print_matrix(std::vector<std::vector<int>> &matx)
 {
-    for(const auto& row : matx)
+    for (const auto &row : matx)
     {
-        for(const auto& r : row)
+        for (const auto &r : row)
         {
             std::cout << r << " ";
         }
@@ -80,10 +80,10 @@ inline void print_matrix(std::vector<std::vector<int>>& matx)
 
 int main()
 {
-    std::vector<std::vector<int>> matx {
-        {1,1,1},
-        {0,1,1},
-        {1,1,1},
+    std::vector<std::vector<int>> matx{
+        {1, 1, 1},
+        {0, 1, 1},
+        {1, 1, 1},
     };
 
     setZeroes(matx);

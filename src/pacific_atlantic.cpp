@@ -7,16 +7,17 @@
 #include <vector>
 
 using grid = std::vector<std::vector<int>>;
-using visited_t = std::unordered_map<std::string, std::pair<int,int>>;
+using visited_t = std::unordered_map<std::string, std::pair<int, int>>;
 
 static std::regex cell_str_rgx("\\[(\\d+),(\\d+)\\]");
 
 inline std::string cell_to_string(const int x, const int y)
 {
-    return std::string("[") + std::to_string(x) + std::string(",") + std::to_string(y) + std::string("]");
+    return std::string("[") + std::to_string(x) + std::string(",") + std::to_string(y) +
+           std::string("]");
 }
 
-inline std::pair<int,int> string_to_cell(std::string mstr)
+inline std::pair<int, int> string_to_cell(std::string mstr)
 {
     std::smatch sm;
 
@@ -25,13 +26,13 @@ inline std::pair<int,int> string_to_cell(std::string mstr)
     return std::make_pair(res ? std::stoi(sm[1]) : -1, res ? std::stoi(sm[2]) : -1);
 }
 
-std::vector<std::pair<int,int>> get_neighbors(const grid& heights, const int x, const int y)
+std::vector<std::pair<int, int>> get_neighbors(const grid &heights, const int x, const int y)
 {
-    std::vector<std::pair<int,int>> neighs;
+    std::vector<std::pair<int, int>> neighs;
     const auto height_size = static_cast<int>(heights.size());
     const auto cur_cell = heights.at(y).at(x);
 
-    for(int i = x - 1; i < x + 2; ++i)
+    for (int i = x - 1; i < x + 2; ++i)
     {
         if (i < 0 || i >= height_size || i == x)
         {
@@ -48,7 +49,7 @@ std::vector<std::pair<int,int>> get_neighbors(const grid& heights, const int x, 
         neighs.push_back(std::make_pair(i, y));
     }
 
-    for(int j = y - 1; j < y + 2; ++j)
+    for (int j = y - 1; j < y + 2; ++j)
     {
         if (j < 0 || j >= height_size || j == y)
         {
@@ -68,16 +69,16 @@ std::vector<std::pair<int,int>> get_neighbors(const grid& heights, const int x, 
     return neighs;
 }
 
-void bfs(const grid& heights, visited_t& visited_cells, std::pair<int,int> start_cell)
+void bfs(const grid &heights, visited_t &visited_cells, std::pair<int, int> start_cell)
 {
-    std::list<std::pair<int,int>> mq;
+    std::list<std::pair<int, int>> mq;
     std::unordered_set<std::string> visited;
 
     mq.push_back(start_cell);
 
     // Breadth-first search going outwards from the current cell
     // to all of the neighboring cells.
-    while(mq.size() > 0)
+    while (mq.size() > 0)
     {
         auto cell = mq.front();
         const auto &[cell_x, cell_y] = cell;
@@ -87,7 +88,7 @@ void bfs(const grid& heights, visited_t& visited_cells, std::pair<int,int> start
 
         // Only get neighbors that have a value equal to or less than
         // the value of the current cell.
-        for(const auto& pair : get_neighbors(heights, cell_x, cell_y))
+        for (const auto &pair : get_neighbors(heights, cell_x, cell_y))
         {
             const auto &[neighbor_x, neighbor_y] = pair;
 
@@ -104,7 +105,7 @@ void bfs(const grid& heights, visited_t& visited_cells, std::pair<int,int> start
 
     // Set the current cell's visited parameters based
     // on the relative locations to both oceans.
-    for(const auto& v_cell : visited)
+    for (const auto &v_cell : visited)
     {
         const auto [cx, cy] = string_to_cell(v_cell);
 
@@ -112,22 +113,24 @@ void bfs(const grid& heights, visited_t& visited_cells, std::pair<int,int> start
         const bool visit_atl = (cx == (heights_size - 1) || cy == (heights_size - 1));
 
         // Set the visited parameters of the current cell
-        auto &[pac,atl] = visited_cells[s_str];
+        auto &[pac, atl] = visited_cells[s_str];
 
-        if (visit_pac) pac = 1;
-        if (visit_atl) atl = 1;
+        if (visit_pac)
+            pac = 1;
+        if (visit_atl)
+            atl = 1;
     }
 }
 
-grid pacific_atlantic(const grid& heights)
+grid pacific_atlantic(const grid &heights)
 {
     grid res_grid;
     visited_t visited_cells;
 
     // Go through all cells in the grid.
-    for(int x = 0; x < static_cast<int>(heights.size()); ++x)
+    for (int x = 0; x < static_cast<int>(heights.size()); ++x)
     {
-        for(int y = 0; y < static_cast<int>(heights.size()); ++y)
+        for (int y = 0; y < static_cast<int>(heights.size()); ++y)
         {
             // See if we can get to both oceans from the current cell.
             bfs(heights, visited_cells, std::make_pair(x, y));
@@ -135,17 +138,17 @@ grid pacific_atlantic(const grid& heights)
     }
 
     // Collect cells that we've visited twice.
-    for(const auto& item_pair : visited_cells)
+    for (const auto &item_pair : visited_cells)
     {
         const auto &[cell_param, visit_pair] = item_pair;
         const auto &[pac, atl] = visit_pair;
 
         if (atl == 1 && pac == 1)
         {
-            const auto [x,y] = string_to_cell(cell_param);
+            const auto [x, y] = string_to_cell(cell_param);
             std::vector<int> mints;
 
-            //std::cout << "Target cell: " << x << " " << y << std::endl;
+            // std::cout << "Target cell: " << x << " " << y << std::endl;
 
             mints.push_back(x);
             mints.push_back(y);
@@ -157,11 +160,11 @@ grid pacific_atlantic(const grid& heights)
     return res_grid;
 }
 
-inline void print_res_grid(const grid& grid)
+inline void print_res_grid(const grid &grid)
 {
-    for(const auto& row : grid)
+    for (const auto &row : grid)
     {
-        for(const auto& r : row)
+        for (const auto &r : row)
         {
             std::cout << r << " ";
         }
@@ -172,13 +175,8 @@ inline void print_res_grid(const grid& grid)
 
 int main()
 {
-    grid heights
-    {
-        {1,2,2,3,5},
-        {3,2,3,4,4},
-        {2,4,5,3,1},
-        {6,7,1,4,5},
-        {5,1,1,2,4},
+    grid heights{
+        {1, 2, 2, 3, 5}, {3, 2, 3, 4, 4}, {2, 4, 5, 3, 1}, {6, 7, 1, 4, 5}, {5, 1, 1, 2, 4},
     };
 
     print_res_grid(pacific_atlantic(heights));

@@ -3,8 +3,7 @@
 #include <queue>
 #include <vector>
 
-template<class T>
-struct MaxStack
+template <class T> struct MaxStack
 {
     using PQueue_max_T = std::priority_queue<T, std::vector<T>, std::less<T>>;
     using PQueue_T = std::priority_queue<T, std::vector<T>, std::not_equal_to<T>>;
@@ -19,15 +18,13 @@ struct MaxStack
     PQueue_T q;
 };
 
-template<class T>
-void MaxStack<T>::Push(T x)
+template <class T> void MaxStack<T>::Push(T x)
 {
     q.push(x);
     max_q.push(x);
 }
 
-template<class T>
-T MaxStack<T>::Pop()
+template <class T> T MaxStack<T>::Pop()
 {
     T t = Top();
     q.pop();
@@ -35,19 +32,18 @@ T MaxStack<T>::Pop()
     return t;
 }
 
-template<class T>
-T MaxStack<T>::PopMax()
+template <class T> T MaxStack<T>::PopMax()
 {
     T t = Max();
     max_q.pop();
 
     PQueue_T q2;
 
-    while(!q.empty())
+    while (!q.empty())
     {
         const auto itm = Pop();
 
-        if(itm != t)
+        if (itm != t)
             q2.push(std::move(itm));
     }
 
@@ -56,14 +52,12 @@ T MaxStack<T>::PopMax()
     return t;
 }
 
-template<class T>
-T MaxStack<T>::Top()
+template <class T> T MaxStack<T>::Top()
 {
     return q.top();
 }
 
-template<class T>
-T MaxStack<T>::Max()
+template <class T> T MaxStack<T>::Max()
 {
     return max_q.top();
 }

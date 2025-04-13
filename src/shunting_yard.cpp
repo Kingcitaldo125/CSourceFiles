@@ -3,7 +3,7 @@
 #include <list>
 #include <unordered_map>
 
-static std::unordered_map<char,int> prescedence_map { {'-', 1}, {'+', 2}, {'/', 3}, {'*', 4} };
+static std::unordered_map<char, int> prescedence_map{{'-', 1}, {'+', 2}, {'/', 3}, {'*', 4}};
 
 inline bool is_operand(const char c)
 {
@@ -15,13 +15,14 @@ inline bool prescedence(char c1, char c2)
     return prescedence_map[c1] < prescedence_map[c2];
 }
 
-std::string shunting_yard(const std::string& mstr)
+std::string shunting_yard(const std::string &mstr)
 {
     std::list<std::string> mstack;
     std::list<char> operands;
     const char control_char = '@';
 
-    const auto handle_operand = [&operands,&mstack,&control_char](char m) {
+    const auto handle_operand = [&operands, &mstack, &control_char](char m)
+    {
         char top = '_';
 
         if (operands.size() > 0)
@@ -29,7 +30,7 @@ std::string shunting_yard(const std::string& mstr)
             top = operands.back();
         }
 
-        while(operands.size() > 0 && prescedence(m, top))
+        while (operands.size() > 0 && prescedence(m, top))
         {
             top = operands.back();
             operands.pop_back();
@@ -43,7 +44,7 @@ std::string shunting_yard(const std::string& mstr)
         }
     };
 
-    for(const auto& m : mstr)
+    for (const auto &m : mstr)
     {
         if (m == '(')
         {
@@ -53,7 +54,7 @@ std::string shunting_yard(const std::string& mstr)
         {
             char top = '_';
 
-            while(top != '(' && operands.size() > 0)
+            while (top != '(' && operands.size() > 0)
             {
                 if (operands.size() == 0)
                 {
@@ -63,7 +64,7 @@ std::string shunting_yard(const std::string& mstr)
                 top = operands.back();
                 operands.pop_back();
 
-                if(top != '(')
+                if (top != '(')
                 {
                     mstack.push_back(std::string(1, top));
                 }
@@ -83,9 +84,9 @@ std::string shunting_yard(const std::string& mstr)
 
     std::string retstr("");
 
-    while(mstack.size() > 0)
+    while (mstack.size() > 0)
     {
-        const auto& top = mstack.back();
+        const auto &top = mstack.back();
         mstack.pop_back();
         retstr += top;
     }

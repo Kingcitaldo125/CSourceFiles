@@ -1,24 +1,24 @@
 #include <algorithm>
 #include <iostream>
 #include <queue>
-#include <unordered_set>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #define MAX_INF 999999999
 
-using node_t = std::pair<std::string,int>;
+using node_t = std::pair<std::string, int>;
 using graph_t = std::unordered_map<std::string, std::vector<node_t>>;
 
-std::unordered_map<std::string,int> dyjkstras(graph_t& mgraph, const std::string& start)
+std::unordered_map<std::string, int> dyjkstras(graph_t &mgraph, const std::string &start)
 {
     std::unordered_set<std::string> visited;
     std::queue<node_t> mq;
-    std::unordered_map<std::string,int> costs;
+    std::unordered_map<std::string, int> costs;
 
-    for(const auto& pair : mgraph)
+    for (const auto &pair : mgraph)
     {
-        const auto &[i,j] = pair;
+        const auto &[i, j] = pair;
         costs[i] = MAX_INF;
     }
 
@@ -26,7 +26,7 @@ std::unordered_map<std::string,int> dyjkstras(graph_t& mgraph, const std::string
 
     mq.push(std::make_pair(start, 0));
 
-    while(!mq.empty())
+    while (!mq.empty())
     {
         const auto item = mq.front();
         mq.pop();
@@ -39,7 +39,7 @@ std::unordered_map<std::string,int> dyjkstras(graph_t& mgraph, const std::string
 
         int l_cost = MAX_INF;
         std::string l_neighbor = id;
-        for(const auto& neighbor : mgraph[id])
+        for (const auto &neighbor : mgraph[id])
         {
             const auto &[nid, nweight] = neighbor;
 
@@ -63,7 +63,7 @@ std::unordered_map<std::string,int> dyjkstras(graph_t& mgraph, const std::string
 
 int main()
 {
-    graph_t graph{{"D",{}}};
+    graph_t graph{{"D", {}}};
 
     graph["A"].push_back(std::make_pair("B", 4));
     graph["A"].push_back(std::make_pair("C", 2));
@@ -81,9 +81,9 @@ int main()
     const auto costs = dyjkstras(graph, "A");
 
     puts("Costs:");
-    for(const auto& cp : costs)
+    for (const auto &cp : costs)
     {
-        const auto &[i,j] = cp;
+        const auto &[i, j] = cp;
         std::cout << i << "," << j << "\n";
     }
 
