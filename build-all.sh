@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cmake -S . -B build --log-level=DEBUG && cmake --build build/ --parallel 1
+cmake -S . -B build && cmake --build build/ --parallel $(nproc)
